@@ -38,3 +38,11 @@ if (FEATURES.offline) {
     showInfo: (msg) => tracker.view.render('info', msg),
   });
 }
+fetch("http://localhost:5000/")
+  .then(response => response.json())
+  .then(data => {
+    console.log("", data);
+    console.log("Backend Response:", data);
+    //document.body.innerHTML = `<h2>Backend says: ${data.message}</h2>`;
+  })
+  .catch(error => console.error("Error connecting to backend:", error));
