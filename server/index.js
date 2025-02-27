@@ -6,13 +6,14 @@ const { Pool } = require("pg");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// PostgreSQL Database Connection
+// PostgreSQL Database Connection (Now Uses `.env` + SSL for Render)
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     password: process.env.DB_PASS,
-    port: process.env.DB_PORT
+    port: process.env.DB_PORT,
+    ssl: { rejectUnauthorized: false } // ✅ Required for Render PostgreSQL
 });
 
 // Middleware
@@ -23,7 +24,7 @@ app.use(express.json());
 app.get("/api/periods", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM periods ORDER BY cycle_start DESC");
-        console.log("++++++++++++ ",result.rows)
+        console.log("++++++++++++ ", result.rows);
         res.json(result.rows);
     } catch (err) {
         console.error(err.message);
@@ -31,23 +32,21 @@ app.get("/api/periods", async (req, res) => {
     }
 });
 
-// // ✅ API Route: Add New Period Data
-// app.post("/api/periods11", async (req, res) => {
-//     const { user_id, cycle_start, cycle_end, cycle_length, ovulation_date, pregnancy, body_weight, body_temperature, height } = req.body;
-//     try {
-//         const result = await pool.query(
-//             "INSERT INTO periods (user_id, cycle_start, cycle_end, cycle_length, ovulation_date, pregnancy, body_weight, body_temperature, height) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
-//             [user_id, cycle_start, cycle_end, cycle_length, ovulation_date, pregnancy, body_weight, body_temperature, height]
-//         );
-//         res.json(result.rows[0]);
-//         console.log("------- ",result.rows[0])
-//     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send("Server Error");
-//     }
-// });
+// ✅ API Route: Fetch Users
+app.get("/api/users", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM users");
+        console.log("++++++++++++ ", result.rows);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// ✅ API Route: Test Backend
 app.get("/", (req, res) => {
-    res.json({ message: "Backend is running!" });
+    res.json({ message: "Backend is running and connected to PostgreSQL!" });
 });
 
 // Start Server

@@ -50,7 +50,15 @@ fetch("http://localhost:5000/")
   fetch("http://localhost:5000/api/periods")
   .then(response => response.json())
   .then(data => {
-    console.log("Backend Response:", data);
+    console.log("patients", data);
+   // document.body.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  })
+  .catch(error => console.error("Error connecting to backend:", error));
+
+  fetch("http://localhost:5000/api/users")
+  .then(response => response.json())
+  .then(data => {
+    console.log("users", data);
    // document.body.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
   })
   .catch(error => console.error("Error connecting to backend:", error));
