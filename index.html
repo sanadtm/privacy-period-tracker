@@ -99,7 +99,13 @@
       <a class="main-nav__link" href="#/settings"><svg class="icon main-nav__icon" focusable="false" aria-hidden="true"><use href="#icon-settings"></use></svg>settings</a></li>
   </ul>
 </nav>
-
+<div > 
+  <label for="user-select">Select a User:</label>
+  <select id="user-select">
+      <option value="">Loading users...</option>
+  </select>
+  </div>
+  
 <main class="main-content">
 <!-- HOME -->
   <section id="home" class="main-section main-section--home">
@@ -144,7 +150,9 @@
     
     <div>
       <table class="log-list">
-        <tbody id="log-data"></tbody>
+        <tbody id="log-data">
+       
+        </tbody>
         <tfoot>
           <tr id="edit-form--log-tr" class="log-list__item--edit-form">
             <td colspan="4">
@@ -160,7 +168,6 @@
       </table>
     </div>
   </section>
-
 
 <!-- SETTINGS -->
   <section id="settings" class="main-section main-section--settings">

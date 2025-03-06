@@ -51,7 +51,7 @@ fetch("http://localhost:5000/")
   .then(response => response.json())
   .then(data => {
     console.log("patients", data);
-   // document.body.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+   // document.body.innerHTML = `<log-data>${JSON.stringify(data, null, 2)}</log-data>`;
   })
   .catch(error => console.error("Error connecting to backend:", error));
 
@@ -59,6 +59,24 @@ fetch("http://localhost:5000/")
   .then(response => response.json())
   .then(data => {
     console.log("users", data);
-   // document.body.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    console.log("Users:", data);
+    const userSelect = document.getElementById("user-select");
+
+    // Clear existing options
+    userSelect.innerHTML = "";
+
+    // Add a default "Select a User" option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select a User";
+    userSelect.appendChild(defaultOption);
+
+    // Loop through users and add them to the dropdown
+    data.forEach((user) => {
+        const option = document.createElement("option");
+        option.value = user.id; // Use user ID as the value
+        option.textContent = `${user.username} (${user.email})`; // Display username and email
+        userSelect.appendChild(option);
+    });
   })
   .catch(error => console.error("Error connecting to backend:", error));
