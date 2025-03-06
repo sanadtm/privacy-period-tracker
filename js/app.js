@@ -21,13 +21,13 @@ var load = function () {
   show();
 };
 
-if (location.protocol === 'http:' && location.hostname !== 'localhost') {
-  const newUrl = location.href.replace('http://', 'https://');
-  tracker.view.render(
-    'warning',
-    `Warning: this app is better loaded from its <a href="${newUrl}">https counterpart</a>`
-  );
-}
+// if (location.protocol === 'http:' && location.hostname !== 'localhost') {
+//   const newUrl = location.href.replace('http://', 'https://');
+//   tracker.view.render(
+//     'warning',
+//     `Warning: this app is better loaded from its <a href="${newUrl}">https counterpart</a>`
+//   );
+// }
 
 window.addEventListener('load', load);
 window.addEventListener('hashchange', show);

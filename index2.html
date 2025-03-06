@@ -264,6 +264,15 @@
 <script src="js/offline.js"></script>
 <script src="js/app.js"></script>
 <script>
+          // Function to format dates as MM/DD/YYYY
+          function formatDate(dateString) {
+            let date = new Date(dateString);
+            return date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+            });
+        }
 let partners = [
     { id: 54, user_id: 4, first_name: "Aria", last_name: "Anderson", ssn: "741-58-3699" },
     { id: 53, user_id: 3, first_name: "Madison", last_name: "Wilson", ssn: "369-47-2586" },
@@ -286,8 +295,10 @@ let partners = [
           // If no user data is found
           userInfo.textContent = "No user selected.";
       }
+      let homeCalc = document.getElementById("home");
        // Check if the user is a doctor
        if (currentUser.role === "doctor") {
+        homeCalc.style.display = "none";
             let patientData = JSON.parse(localStorage.getItem("patientData")) || [];
             let patientTable = document.getElementById("patient-data");
 
@@ -301,13 +312,13 @@ let partners = [
                     <td>${patient.body_temperature} °F</td>
                     <td>${patient.body_weight} lbs</td>
                     <td>${patient.height} cm</td>
-                    <td>${patient.cycle_start}</td>
-                    <td>${patient.cycle_end}</td>
+                   <td>${formatDate(patient.cycle_start)}</td>
+                    <td>${formatDate(patient.cycle_end)}</td>
                     <td>${patient.pregnancy ? "Yes" : "No"}</td>
                 </tr>
             `).join("");
         } else {
-            document.getElementById("patient-container").innerHTML = "<h3>You do not have access to patient data.</h3>";
+            document.getElementById("patient-container").innerHTML = "";
         }
   });
 </script>
