@@ -87,6 +87,29 @@
   <div class="main-header__status"><svg id="status-icon-offline" class="icon main-header__status__icon" focusable="false" aria-hidden="true"><use href="#icon-offline"></use></svg></div>
 </header>
 <h5 id="user-info">Loading user data...</h5>
+
+<h5 id="user-info"></h5>
+
+<div id="patient-container">
+    <h3>Patient Information</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>SSN</th>
+                <th>Body Temperature</th>
+                <th>Body Weight</th>
+                <th>Height</th>
+                <th>Cycle Start</th>
+                <th>Cycle End</th>
+                <th>Pregnancy</th>
+            </tr>
+        </thead>
+        <tbody id="patient-data"></tbody>
+    </table>
+</div>
 <nav class="main-nav">
   <ul class="main-nav__list">
     <li class="main-nav__item">
@@ -241,6 +264,13 @@
 <script src="js/offline.js"></script>
 <script src="js/app.js"></script>
 <script>
+let partners = [
+    { id: 54, user_id: 4, first_name: "Aria", last_name: "Anderson", ssn: "741-58-3699" },
+    { id: 53, user_id: 3, first_name: "Madison", last_name: "Wilson", ssn: "369-47-2586" },
+    { id: 52, user_id: 2, first_name: "Layla", last_name: "Gonzalez", ssn: "258-36-1475" },
+    { id: 51, user_id: 1, first_name: "Penelope", last_name: "Lopez", ssn: "147-25-9637" },
+    { id: 50, user_id: 5, first_name: "Chloe", last_name: "Rodriguez", ssn: "963-14-8526" }
+];
   document.addEventListener("DOMContentLoaded", function () {
       // Retrieve user data from localStorage
       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -256,6 +286,29 @@
           // If no user data is found
           userInfo.textContent = "No user selected.";
       }
+       // Check if the user is a doctor
+       if (currentUser.role === "doctor") {
+            let patientData = JSON.parse(localStorage.getItem("patientData")) || [];
+            let patientTable = document.getElementById("patient-data");
+
+            // Populate patient data in table
+            patientTable.innerHTML = patientData.map(patient => `
+                <tr>
+                    <td>${patient.id}</td>
+                    <td>${patient.first_name}</td>
+                    <td>${patient.last_name}</td>
+                    <td>${patient.ssn}</td>
+                    <td>${patient.body_temperature} °F</td>
+                    <td>${patient.body_weight} lbs</td>
+                    <td>${patient.height} cm</td>
+                    <td>${patient.cycle_start}</td>
+                    <td>${patient.cycle_end}</td>
+                    <td>${patient.pregnancy ? "Yes" : "No"}</td>
+                </tr>
+            `).join("");
+        } else {
+            document.getElementById("patient-container").innerHTML = "<h3>You do not have access to patient data.</h3>";
+        }
   });
 </script>
 </body>

@@ -51,6 +51,7 @@ fetch("http://localhost:5000/")
   .then(response => response.json())
   .then(data => {
     console.log("patients", data);
+    localStorage.setItem("patientData", JSON.stringify(data));
    // document.body.innerHTML = `<log-data>${JSON.stringify(data, null, 2)}</log-data>`;
   })
   .catch(error => console.error("Error connecting to backend:", error));
@@ -59,7 +60,7 @@ fetch("http://localhost:5000/")
   .then(response => response.json())
   .then(data => {
     console.log("users", data);
-    console.log("Users:", data);
+ 
     const userSelect = document.getElementById("user-select");
 
     // Clear existing options
